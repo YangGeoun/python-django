@@ -15,8 +15,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from accounts import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('main/', include('main.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('plans/', include('plans.urls')),
+    path('challenges/',include('challenges.urls')),
+    # path('algorithms/',include('algorithms.urls')),
+    path(
+        '<int:user_pk>/password/',
+        views.change_password,
+        name='change_password',
+    ),
+    # 이미지 경로 media 추가
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block css %}
+    <style>
+        .font {
+            color: white;
+        }
+    </style>
+{% endblock css %}
+{% block content %}
+<div class='font'>
+    <p>부수환 일해라</p>
+    제목 : {{challenge.title}}
+</div>
+<div class='font'>
+    문제번호 : {{challenge.problem}}
+</div>
+<div class='font'>
+    난이도 : {{challenge.rank}}
+</div>
+{% endblock content %}
+

@@ -19,6 +19,9 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from accounts import views
+from django.views.static import serve
+from django.urls import re_path
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,4 +36,5 @@ urlpatterns = [
         name='change_password',
     ),
     # 이미지 경로 media 추가
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -15,7 +15,7 @@
   body {
     min-height: 100vh;
     /* background: lightgray; */
-    background :url('background3.JPG') ;
+    background :url('background3.jpg') ;
     background-size : cover;
     cursor: url(test_mouse.png) 2 2, auto;
   }

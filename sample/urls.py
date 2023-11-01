@@ -29,13 +29,13 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('plans/', include('plans.urls')),
     path('challenges/',include('challenges.urls')),
-    # path('algorithms/',include('algorithms.urls')),
+    path('algorithms/',include('algorithms.urls')),
     path(
         '<int:user_pk>/password/',
         views.change_password,
         name='change_password',
     ),
     # 이미지 경로 media 추가
-    re_path(r'^static/(?:.*)$', serve, {'document_root': settings.STATIC_ROOT, },
+    re_path(r'^static/(?:.*)$', serve, {'document_root': settings.STATIC_ROOT, }),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

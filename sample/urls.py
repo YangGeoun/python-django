@@ -36,6 +36,6 @@ urlpatterns = [
         name='change_password',
     ),
     # 이미지 경로 media 추가
-    re_path(r'^static/(?:.*)$', serve, {'document_root': settings.STATIC_ROOT, }),
-    re_path(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
+    # re_path(r'^static/(?:.*)$', serve, {'document_root': settings.STATIC_ROOT, }),
+    # re_path(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

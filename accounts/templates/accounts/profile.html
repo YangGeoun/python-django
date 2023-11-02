@@ -16,10 +16,10 @@
 
     .standing_img {
         position: relative;
+        position: absoulute;
         width: 200px;
-        margin-top : 5%;
-        margin-bottom : 5%;
-        left: 75px;
+        
+        left: 55px;
     }
 
     .profile {
@@ -27,9 +27,10 @@
         width: 95.5px;
         height: 95.5px;
         border-radius: 50%;
-        top: -59px;
-        right: 74.1px;
+        top: 11%;
+        right: 90px;
     }
+
   </style> 
 {% endblock css %}
 {% block content %}
@@ -39,16 +40,16 @@
             {% comment %} 프로필 사진 {% endcomment %}
             <div class="d-flex justify-content-center">
                 {% comment %} 프로필 사진 경로 추가해야함! {% endcomment %}
-                {% if request.user.image %}  
+                <img src="{% static "profile_img/astronaut.png" %}" alt="stand_image" class="standing_img img-fluid"> 
+                {% if person.image %}  
                     <div class="stand text-center">
-                        <img src="{% static "profile_img/astronaut.png" %}" alt="stand_image"class="standing_img img-fluid"> 
                         {% comment %} <img src={% static "profile_img/astronaut.png" %} alt="stand_image" class="standing_img" style="width: 50%; left:15%;"> {% endcomment %}
-                        <img src="{{ request.user.image.url }}" alt="프로필" class="profile rounded-circle">
+                        <img src="{{ person.image.url }}" alt="프로필" class="profile rounded-circle">
                     </div>
 
                 {% endif %}
             </div>
-            <h3 class="ms-2">{{ person.username }}님</h3>
+            <h3 class="ms-2 mt-5">{{ person.username }}님</h3>
             <h5>백준 닉네임 : {{ person.beakjoon_nickname }}</h5>
             {% comment %} 상단 프로필 배너 {% endcomment %}
             <div class="d-flex justify-content-center mb-4">

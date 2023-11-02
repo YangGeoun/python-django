@@ -17,5 +17,9 @@
 <div class='font'>
     난이도 : {{challenge.rank}}
 </div>
+<a class="btn btn-primary" href="{% url "challenges:code" challenge.pk%}" role="button">코드 작성하러 가기</a>
+{% for code in challenge.code_challenge %}
+    {{code.author.name}}님이 작성한 게시글
+{% endfor %}
 {% endblock content %}
 

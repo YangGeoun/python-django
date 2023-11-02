@@ -2,18 +2,18 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Main
 from plans.models import Plan
-# from challenges.models import Challenge
+from challenges.models import Challenge
 
 from .forms import MainForm, CommentForm
 # Create your views here.
 def index(request):
     mains = Main.objects.all()
     plans = Plan.objects.all()
-    # challenges = Challenge.objects.all()
+    challenges = Challenge.objects.all()
     context = {
         'mains': mains,
         'plans': plans,
-        # 'challenges' : challenges,
+        'challenges' : challenges,
     }
     return render(request, 'main/index.html', context)
 
@@ -29,3 +29,16 @@ def detail(request, pk):
     }
     return render(request, 'main/detail.html', context)
 
+def test(request):
+    mains = Main.objects.all()
+    context = {
+        'mains': mains,
+    }
+    return render(request, 'main/test.html', context)
+
+def test2(request):
+    mains = Main.objects.all()
+    context = {
+        'mains': mains,
+    }
+    return render(request, 'main/test2.html', context)

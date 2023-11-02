@@ -1,0 +1,64 @@
+ <!DOCTYPE html>
+ {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href={% static "codemirror/lib/codemirror.css" %}>
+    <script src={% static "codemirror/lib/codemirror.js" %}></script>
+    <script src={% static "codemirror/mode/python/python.js" %}></script>
+    <link rel="stylesheet" href={% static "/codemirror/theme/dracula.css" %}>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    {% csrf_token %}
+    
+        <textarea name="" id="editor" cols="30" rows="10"></textarea>
+        <button type="submit" id='code-form' > save</button>
+
+    <button id="runner">RUN</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        var editor = CodeMirror.fromTextArea(
+            document.getElementById('editor'),{
+                mode: 'python',
+                theme: 'dracula',
+                lineNumbers: true,
+                
+            }
+        )
+        const runner = document.querySelector('#runner')
+        
+        runner.addEventListener('click',function(event){
+            event.preventDefault()
+            const py = document.createElement('py-script')
+            py.textContent = editor.getValue()
+            console.log(editor.getValue())
+            document.body.appendChild(py)
+            
+        })
+        const formTag = document.querySelector('#code-form')
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+        console.log(csrftoken)
+        formTag.addEventListener('click', function (event) {
+            const codeData = editor.getValue()
+        
+            const data = new FormData()
+            data.append('content',codeData)
+            axios({
+                method:'post',
+                url: '{% url "challenges:code" challenge.pk%}',
+                headers: {'X-CSRFToken': csrftoken},
+                data,
+            })
+            .then((response)=>{
+                console.log(response.data)
+            })
+        })
+    </script>
+</body>
+</html> 

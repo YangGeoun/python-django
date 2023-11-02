@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
+from algorithms.crawling import solved_crawling
 
 class User(AbstractBaseUser, PermissionsMixin):
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
@@ -34,6 +35,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         users = get_user_model().objects.all()
         return users
     
+    @property
+    def user_crawling(self):
+        solved_crawling(self)
 
 class UserManager(BaseUserManager):
     use_in_migrations = True

@@ -46,7 +46,10 @@ def solved_crawling(person):
     person.save()
 
     for solved_num in solved_num_list:
-        problem = Problem.objects.get(problem_num=solved_num) 
+        try:
+            problem = Problem.objects.get(problem_num=solved_num) 
+        except:
+            continue
         problem.solved_users.add(person)
 
 

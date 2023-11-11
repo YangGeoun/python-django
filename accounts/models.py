@@ -9,7 +9,7 @@ from algorithms.crawling import solved_crawling
 class User(AbstractBaseUser, PermissionsMixin):
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     beakjoon_nickname = models.CharField('백준 닉네임',max_length=30, blank=True)
-    beakjoon_rank = models.CharField(max_length=30, blank=True)
+    beakjoon_rank = models.CharField(max_length=30, blank=True, null=True)
 
     email = models.EmailField('이메일', unique=True)
     username = models.CharField('이름', max_length=30)

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from .models import Problem, ProblemClass, Algorithm
 from .crawling import solved_crawling as sc
 from .forms import AlgorithmFrom
@@ -71,6 +72,12 @@ def solved_crawling(request, user_pk):
     person = get_user_model().objects.get(pk=user_pk)
     sc(person)
     return redirect('algorithms:solved', person.pk)
+
+def user_crawling(request, user_pk):
+    person = get_user_model().objects.get(pk=user_pk)
+    sc(person)
+    return JsonResponse({})
+
 
 @login_required
 def index(request):

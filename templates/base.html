@@ -1,7 +1,5 @@
 {% load static %}
-{% if not request.user.beakjoon_rank %}
-  {{ request.user.user_crawling }}
-{% endif %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,5 +146,15 @@
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> 
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      {% if request.user.is_authenticated %}
+        <script>
+          axios({
+            method: 'get',
+            url: '{% url "algorithms:user_crawling" request.user.pk %}',
+          })
+        </script>
+      {% endif %}
+      
   </body>
 </html>

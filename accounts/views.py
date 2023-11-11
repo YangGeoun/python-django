@@ -61,6 +61,8 @@ def delete(request):
 
 @login_required
 def update(request):
+    previous_beakjoon_nickname = request.user.beakjoon_nickname
+    print(previous_beakjoon_nickname)
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -68,6 +70,14 @@ def update(request):
             print(request.FILES)
             user.image = request.FILES['image']
             user.save()
+            print(user.beakjoon_nickname)
+            print(previous_beakjoon_nickname)
+            if previous_beakjoon_nickname != user.beakjoon_nickname:
+                solved_problems = user.solved_problems.all()
+                for el in solved_problems:
+                    user.solved_problems.remove(el)
+                user.beakjoon_rank = None
+                user.save()
             return redirect('accounts:profile', user.pk)
     else:
         form = CustomUserChangeForm(instance=request.user)

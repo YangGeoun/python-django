@@ -1,50 +1,73 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+{% load static %}
 <head>
   <title >
     <p class=' text-light'>:: Calendar ::</p></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Russo+One&display=swap" rel="stylesheet">
+    
     
   <style type="text/css">
     .font {
-        font-family: 'Gowun Dodum', sans-serif;
-      }
-      a { 
-        color:#000000;
+        font-family: 'Comfortaa', sans-serif;
+    }
+    a { 
+        color:white;
         opacity: 0.7;
-        text-decoration:none; 
+        text-decoration:none;
+        text-align:center;      
     }
-
-    .scriptCalendar { 
-        text-align:center; 
+  
+    .scriptCalendar > thead > tr { 
+        align-items: center;
+        text-align: center;
     }
-
     .scriptCalendar > thead > tr > td { 
-        width:100px;
+        width:200px;
         height:100px; 
     }
 
     .scriptCalendar > thead > tr:first-child > td { 
         font-weight:bold; 
-        font-size:50px;
+        font-size:40px;
         
     }
+    .scriptCalendar > thead > tr:first-child { 
+        display: flex;
+    }
+    {% comment %} sun ~ sat(첫째줄) {% endcomment %}
     .scriptCalendar > thead > tr:last-child > td { 
-        background-color:rgba(182, 206, 255,0.7);
+        display: flex;
+        justify-content:center;
+        align-items:center;
+        background-color:#928E85;
         font-size:20px; 
         font-weight: bold; 
+        height:50px;
+        opacity:0.9;
         }
+    .scriptCalendar > thead > tr:last-child  { 
+        display: flex;
+        }
+    {% comment %} 날짜라인 {% endcomment %}
+    .scriptCalendar > tbody > tr  { 
+        display: flex;
+    }    
 
     .scriptCalendar > tbody > tr > td { 
-        width:100px;
-        height:100px; 
+        align-items: baseline;
+        color:white;
+        background:black;
+        width:200px;
+        height:200px; 
         font-size:20px; 
         font-weight:bold;
         border: 1px solid rgba(255, 255, 244,0.7);
+        text-align: start;
+        padding-left: 5px;
     }
 
   </style>
@@ -122,12 +145,12 @@
   
                   // @param 일요일인 경우
                   if(dom % 7 == 1) {
-                      column.style.color = "#FF4D4D";
+                      column.style.color = "#C51E3A";
                   }
   
                   // @param 토요일인 경우
                   if(dom % 7 == 0) {
-                      column.style.color = "#4D4DFF";
+                      column.style.color = "#4682B4";
                       row = tbCalendar.insertRow();   // @param 토요일이 지나면 다시 가로 행을 한줄 추가한다.
                   }
   
@@ -149,19 +172,19 @@
   
                       // @details 현재일보다 이전인 경우이면서 현재월에 포함되는 일인경우
                       if(date.getDate() > day && Math.sign(day) == 1) {
-                          column.style.backgroundColor = "#E5E5E5";
+                          //column.style.backgroundColor = "#E5E5E5";
                       }
   
                       // @details 현재일보다 이후이면서 현재월에 포함되는 일인경우
                       else if(date.getDate() < day && lastDate.getDate() >= day) {
-                          column.style.backgroundColor = "#FFFFFF";
+                          //column.style.backgroundColor = "black";
                           column.style.cursor = "pointer";
                           column.onclick = function(){ calendarChoiceDay(this); }
                       }
   
                       // @details 현재일인 경우
                       else if(date.getDate() == day) {
-                          column.style.backgroundColor = "#FFFFE6";
+                          column.style.backgroundColor = "#36454F";
                           column.style.cursor = "pointer";
                           column.onclick = function(){ calendarChoiceDay(this); }
                       }
@@ -169,14 +192,14 @@
                   // @details 현재월보다 이전인경우
                   } else if(today.getMonth() < date.getMonth()) {
                       if(Math.sign(day) == 1 && day <= lastDate.getDate()) {
-                          column.style.backgroundColor = "#E5E5E5";
+                          column.style.backgroundColor = "black";
                       }
                   }
   
                   // @details 현재월보다 이후인경우
                   else {
                       if(Math.sign(day) == 1 && day <= lastDate.getDate()) {
-                          column.style.backgroundColor = "#FFFFFF";
+                          column.style.backgroundColor = "black";
                           column.style.cursor = "pointer";
                           column.onclick = function(){ calendarChoiceDay(this); }
                       }
@@ -193,7 +216,7 @@
               // @details 선택한년도가 현재년도보다 큰경우
               else {
                   if(Math.sign(day) == 1 && day <= lastDate.getDate()) {
-                      column.style.backgroundColor = "#FFFFFF";
+                      column.style.backgroundColor = "black";
                       column.style.cursor = "pointer";
                       column.onclick = function(){ calendarChoiceDay(this); }
                   }
@@ -213,12 +236,19 @@
   
           // @param 기존 선택일이 존재하는 경우 기존 선택일의 표시형식을 초기화 한다.
           if(document.getElementsByClassName("choiceDay")[0]) {
-              document.getElementsByClassName("choiceDay")[0].style.backgroundColor = "#FFFFFF";
+            console.log(parseInt(document.getElementsByClassName("choiceDay")[0].innerText),parseInt(today.getDate()) )
+            if(parseInt(document.getElementsByClassName("choiceDay")[0].innerText) === parseInt(today.getDate())){
+                document.getElementsByClassName("choiceDay")[0].style.backgroundColor = "#36454F";
+                document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");
+
+            }
+              document.getElementsByClassName("choiceDay")[0].style.backgroundColor = "black";
               document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");
+            
           }
   
           // @param 선택일 체크 표시
-          column.style.backgroundColor = "#FF9999";
+          column.style.backgroundColor = "#A9A9A9";
   
   
           // @param 선택일 클래스명 변경
@@ -240,25 +270,39 @@
   
   </script>
   </head>
-  <body>
-    <div class="p-3 bg-light bg-opacity-50 border border-0 d-flex justify-content-center">
+  <body class="container">
+    <div style="display:flex; justify-content:center;">
         <table class="scriptCalendar">
-            <thead>
-                <tr>
-                    <td onClick="prevCalendar();" style="cursor:pointer;">&#60;&#60;</td>
-                    <td colspan="5">
-                        <div class="d-flex justify-content-center">
-                        <span id="calYear">YYYY</span>년
-                        <span id="calMonth"> MM</span>월
-                        </div>
-                    </td>
-                    <td onClick="nextCalendar();" style="cursor:pointer;">&#62;&#62;</td>
+            <thead class="">
+                <tr style="margin-left:395px; margin-bottom:100px">
+                   
+                        <td onClick="prevCalendar();" style="cursor:pointer; ">
+                            <img src="{% static "Calendar/back_month.png" %}" alt="back_month" height="25px">
+                        </td>
+                        <td colspan="5">
+                            <div>
+                                <div>
+                                    <span id="calYear" class="font fs-3 mx-2 text-white">YYYY </span>
+                                </div>
+                                <div>
+                                    <span id="calMonth" class="font fs-1 text-white"> MM</span><p class="font"></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td onClick="nextCalendar();" style="cursor:pointer;">
+                            <img src="{% static "Calendar/next_month.png" %}" alt="next_month" height="25px">
+                        </td>
+                   
                 </tr>
                 <tr>
                     <td>Sun</td><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <div>
+                <tbody> 
+          
+                </tbody>
+            </div>
         </table>
     </div>
   </body>

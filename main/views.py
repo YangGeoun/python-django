@@ -2,18 +2,29 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Main
 from plans.models import Plan
+from issues.models import Issue
 from challenges.models import Challenge
-
+from algorithms.models import Algorithm
+from datetime import datetime
 from .forms import MainForm, CommentForm
 # Create your views here.
 def index(request):
     mains = Main.objects.all()
     plans = Plan.objects.all()
     challenges = Challenge.objects.all()
+    issues = Issue.objects.all()
+    algorithms = Algorithm.objects.all()
+    now = datetime.now()
+    today_challenge = []
+    for challenge in challenges:
+        if challenge.created_at.date() == now.date():
+            today_challenge.append(challenge)
     context = {
         'mains': mains,
         'plans': plans,
-        'challenges' : challenges,
+        'challenges' : today_challenge,
+        'issues' : issues,
+        'algorithms' : algorithms,
     }
     return render(request, 'main/index.html', context)
 

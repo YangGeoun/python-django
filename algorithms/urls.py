@@ -10,4 +10,7 @@ urlpatterns = [
     # path('crawling/class_num', views.classes_num, name='classes_num')
     path('crawling/solved/<user_pk>/', views.solved_crawling, name='solved_crawling'),
     path('solved/<user_pk>/', views.solved, name='solved'),
+    path('index/', views.index, name='index'),
+    path('create/', views.create, name='create'),
+
 ]

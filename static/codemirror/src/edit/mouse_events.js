@@ -145,6 +145,7 @@ function leftButtonDown(cm, pos, repeat, event) {
 // Start a text drag. When it ends, see if any dragging actually
 // happen, and treat as a click if it didn't.
 function leftButtonStartDrag(cm, event, pos, behavior) {
+ 
   let display = cm.display, moved = false
   let dragEnd = operation(cm, e => {
     if (webkit) display.scroller.draggable = false

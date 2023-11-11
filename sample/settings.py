@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'challenges',
     'main',
     'accounts',
+    'issues',
     'plans',
     'algorithms',
     'django.contrib.admin',

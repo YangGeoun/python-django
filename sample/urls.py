@@ -29,6 +29,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('plans/', include('plans.urls')),
     path('challenges/',include('challenges.urls')),
+    path('issues/', include('issues.urls')),
     path('algorithms/',include('algorithms.urls')),
     path(
         '<int:user_pk>/password/',

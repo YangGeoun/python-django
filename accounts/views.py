@@ -103,9 +103,14 @@ def profile(request, user_pk):
     like_cnt = person.like_plans.all().count()
     for plan in person.user_plans.all():
         like_cnt += plan.like_users.all().count()
+    
+    like_cnt2 = person.like_issues.all().count()
+    for issue in person.user_issues.all():
+        like_cnt2 += issue.like_users.all().count()
     context = {
         'person': person,
         'like_cnt': like_cnt,
+        'like_cnt2': like_cnt2,
     }
     return render(request, 'accounts/profile.html', context)
 
@@ -121,6 +126,15 @@ def follow(request,user_pk):
     return redirect('accounts:profile', person.pk)
 
 
+@login_required
+def manage_board(request):
+    User = get_user_model()
+    people = User.objects.all()
+    context = {
+        'people': people,
+    }
+    return render(request, 'accounts/manage_board.html', context)
+
 
 class UserRegistrationView(CreateView):
     model = get_user_model()
@@ -134,4 +148,5 @@ class UserLoginView(LoginView):           # 로그인
 
     def form_invalid(self, form):
         messages.error(self.request, '로그인에 실패하였습니다.', extra_tags='danger')
-        return super().form_invalid(form)  
+        return super().form_invalid(form)
+    

@@ -5,9 +5,8 @@ class ChallengeForm(forms.ModelForm):
 
     class Meta:
         model = Challenge
-        fields = ('title','problem',)
+        fields = ('problem',)
         labels = {
-            'title' : '',
             'problem' : '',
         }
         widgets = {

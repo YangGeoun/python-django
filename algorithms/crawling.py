@@ -1,13 +1,10 @@
-import time
-import base64
-import requests
-import matplotlib.pyplot as plt
-from io import BytesIO
 from bs4 import BeautifulSoup
 from selenium import webdriver
+import requests
 from selenium.webdriver.common.by import By
-from django.contrib.auth import get_user_model
+import time
 from .models import Problem, ProblemClass
+from django.contrib.auth import get_user_model
 
 rank_list = ['', 'B5', 'B4', 'B3', 'B2', 'B1', 'S5', 'S4', 'S3', 'S2', 'S1',  
             'G5', 'G4', 'G3', 'G2', 'G1', 'P5', 'P4', 'P3', 'P2', 'P1',
@@ -15,38 +12,13 @@ rank_list = ['', 'B5', 'B4', 'B3', 'B2', 'B1', 'S5', 'S4', 'S3', 'S2', 'S1',
 
 
 rank_dic = {
-    'Sprout' : 'B5',
-    'Bronze V' : 'B5',
-    'Bronze IV' : 'B4',
-    'Bronze III' : 'B3',
-    'Bronze II' : 'B2',
-    'Bronze I' : 'B1',
-    'Silver V' : 'S5',
-    'Silver IV' : 'S4',
-    'Silver III' : 'S3',
-    'Silver II' : 'S2',
-    'Silver I' : 'S1',
-    'Gold V' : 'G5',
-    'Gold IV' : 'G4',
-    'Gold III' : 'G3',
-    'Gold II' : 'G2',
-    'Gold I' : 'G1',
-    'Platinum V' : 'P5',
-    'Platinum IV' : 'P4',
-    'Platinum III' : 'P3',
-    'Platinum II' : 'P2',
-    'Platinum I' : 'P1',
-    'Diamond V' : 'D5',
-    'Diamond IV' : 'D4',
-    'Diamond III' : 'D3',
-    'Diamond II' : 'D2',
-    'Diamond I' : 'D1',
-    'Ruby V' : 'R5',
-    'Ruby IV' : 'R4',
-    'Ruby III' : 'R3',
-    'Ruby II' : 'R2',
-    'Ruby I' : 'R1',
-    'Unrated' : 'UR',
+    'Sprout' : 'B5','Unrated' : 'UR',
+    'Bronze V' : 'B5', 'Bronze IV' : 'B4', 'Bronze III' : 'B3', 'Bronze II' : 'B2', 'Bronze I' : 'B1',
+    'Silver V' : 'S5', 'Silver IV' : 'S4', 'Silver III' : 'S3', 'Silver II' : 'S2', 'Silver I' : 'S1',
+    'Gold V' : 'G5', 'Gold IV' : 'G4', 'Gold III' : 'G3', 'Gold II' : 'G2', 'Gold I' : 'G1',
+    'Platinum V' : 'P5', 'Platinum IV' : 'P4', 'Platinum III' : 'P3', 'Platinum II' : 'P2', 'Platinum I' : 'P1',
+    'Diamond V' : 'D5', 'Diamond IV' : 'D4', 'Diamond III' : 'D3', 'Diamond II' : 'D2', 'Diamond I' : 'D1',
+    'Ruby V' : 'R5', 'Ruby IV' : 'R4', 'Ruby III' : 'R3', 'Ruby II' : 'R2','Ruby I' : 'R1',
 }
 
 
@@ -61,7 +33,8 @@ def solved_crawling(person):
 
     # html파일에서 필요한 부분 파싱하기
     soup = BeautifulSoup(html, "html.parser")
-    solved_list = soup.select(".problem-list a")
+    solved_list = soup.select_one(".problem-list")
+    solved_list = solved_list.select("a")
     beakjoon_rank_tag = soup.select_one(".solvedac-tier")
     # beakjoon_rank = rank_list[int(beakjoon_rank_tag.get("src")[-5])]
     beakjoon_rank = rank_list[int(beakjoon_rank_tag.get("src").split('tier/')[-1].strip('.svg'))]
@@ -103,7 +76,8 @@ def problem_crawling(problem_num):
     return name[5].text, rank[5]['alt'], classifications_list
 
 
-# slove.ac에서 클릭을 활용해서 한 문제의 등급, 분류를 가져오는 크롤링
+
+# slove.ac에서 클릭을 활용해서 문제의 등급, 분류를 가져오는 크롤링
 def problem_crawling(problem_num):
     url = f'https://solved.ac/search?query={problem_num}'
 
@@ -137,7 +111,8 @@ def problem_crawling3(request, problem_num):
     for classification in classifications_list:
         classification, a = ProblemClass.objects.get_or_create(name=classification)
         classification.problems.add(problem)
-    
+
+
 # DB에 데이터를 넣기위한 다수의 문제를 크롤링하기
 def problem_list_crawling(request):
     for i in range(100,101):
@@ -212,11 +187,6 @@ def classes_num(request):
             print(tag.get('href').strip('/problem/tag/'))
             cl.ProblemClass_num = int(tag.get('href').strip('/problem/tag/'))
             cl.save()
-
-
-
-
-
 
 
 

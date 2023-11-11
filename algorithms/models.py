@@ -14,3 +14,10 @@ class ProblemClass(models.Model):
     name = models.CharField(max_length=30)
     ProblemClass_num = models.IntegerField(blank=True)
 
+class Algorithm(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_algotithms'
+    )
+    problem = models.ForeignKey(Problem, related_name='algorithms',on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+

@@ -17,9 +17,9 @@ class Plan(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def update_count(self):
-        self.count = self.count + 1
-        self.save()
+    # def update_count(self):
+    #     self.count = self.count + 1
+    #     self.save()
 
 
 class Comment(models.Model):

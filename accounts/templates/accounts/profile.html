@@ -60,10 +60,10 @@
                 <form action="{% url "algorithms:solved" person.pk %}" method='GET'>
                     <button type="submit" id="btn_cursor" class="btn btn-outline-light me-3" > {{ person.username }}님이 푼 문제 </button>
                 </form>
-                <form action="#" method='POST'>
+                {% comment %} <form action="#" method='POST'>
                     {% csrf_token %}
                     <button type="submit" id="btn_cursor" class="btn btn-outline-light me-3"> 뭔가 넣을 곳 </button>
-                </form>
+                </form> {% endcomment %}
             </div>
             <div class="mb-3 d-flex justify-content-around">
                 <p>팔로워 : {{ person.followers.all|length }} </p>
@@ -85,52 +85,92 @@
         </div>
         <hr>
 
-        {% comment %} 작성한 게시글 배너 {% endcomment %}
         <div class="">
-            <div class="d-flex justify-content-between ">
-                <h3 class="mb-5 ms-3 animate__animated animate__headShake text-light font ">Posts</h3>
-                <h5 class="mb-5 me-3 text-light ">{{ person.user_plans.all|length }}개</h5>
+            {% comment %} 작성한 게시글 배너 {% endcomment %}
+            <div class="container d-flex justify-content-between ">
+                <div class="row text-center">
+                    <h2 class="col-6 animate__animated animate__headShake text-light font ">Plans post : {{ person.user_plans.all|length }}</h2>
+                    {% comment %} <h5 class="col-6 text-light">{{ person.user_plans.all|length }}개</h5> {% endcomment %}
+                    <h2 class="col-6 animate__animated animate__headShake text-light font ">Issues post : {{ person.user_issues.all|length }}</h2>
+                </div>
             </div>
-            <div>
-                {% for plan in person.user_plans.all %}
-                    <p class="ms-4 mb-2 text-light ">{{ forloop.counter }} post : <a href="{% url "plans:detail" plan.pk %}">{{ plan.title }}</a></p>
-                {% endfor %}
+            <div class="container d-flex justify-content-between">
+                <div class="row text-center">
+                    <div class="col-6">
+                        {% for plan in person.user_plans.all %}
+                            <p class="ms-2 mb-2 text-light ">Plan {{ forloop.counter }} post : <a href="{% url "plans:detail" plan.pk %}">{{ plan.title }}</a></p>
+                        {% endfor %}
+                    </div>
+                    <div class="col-6">
+                        {% for issue in person.user_issues.all %}
+                            <p class="ms-2 mb-2 text-light ">Issue {{ forloop.counter }} post : <a href="{% url "issues:detail" issue.pk %}">{{ issue.title }}</a></p>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-
             <hr>
 
             {% comment %} 작성한 댓글 배너 {% endcomment %}
-            <div class="d-flex justify-content-between ">
-                <h3 class="mb-5 ms-3 animate__animated animate__headShake text-light font ">Comments</h3>
-                <h5 class="mb-5 me-3 text-light ">{{ person.plan_comments.all|length }}개</h5>
+            <div class="container d-flex justify-content-between ">
+                <div class="row text-center">
+                    <h2 class="col-6 animate__animated animate__headShake text-light font ">Plan comments : {{ person.plan_comments.all|length }}</h2>
+                    {% comment %} <h5 class="mb-5 me-3 text-light ">{{ person.plan_comments.all|length }}개</h5> {% endcomment %}
+                    <h2 class="col-6 animate__animated animate__headShake text-light font ">issues comments : {{ person.issue_comments.all|length }}</h2>
+                </div>
             </div>
-            <div>
-                {% for comment in person.plan_comments.all %}
-                    <p class="ms-4 mb-2 text-light ">"<a href="{% url "plans:detail" comment.plan.pk %}">{{ comment.plan.title }}</a>" 글에서 작성한 comment : {{ comment.comment_content }}</p>
-                {% endfor %}
+            <div class="container d-flex justify-content-between">
+                <div class="row text-center">
+                    <div class="col-6">
+                        {% for comment in person.plan_comments.all %}
+                            <p class="ms-2 me-3 mb-2 text-light ">Plan post "<a href="{% url "plans:detail" comment.plan.pk %}">{{ comment.plan.title }}</a>" comment : {{ comment.comment_content }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="col-6">
+                        {% for comment in person.issue_comments.all %}
+                            <p class="ms-2 me-3 mb-2 text-light ">Issue post "<a href="{% url "issues:detail" comment.issue.pk %}">{{ comment.issue.title }}</a>" comment : {{ comment.comment_content }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
             <hr>
 
-            {% comment %} 좋아요 누른 게시글 배너 {% endcomment %}
-            <div class="d-flex justify-content-between ">
-                <img src={% static "like3_img.png" %} alt="like_medal.png" height="20" class="mb-5 ms-3 animate__animated animate__headShake">
+            {% comment %} <div class="row text-center">
+                <h3>Plans {{ like_cnt }} <img src={% static "like3_img.png" %} alt="like_medal.png" height="20" class="col-6 animate__animated animate__headShake"></h3>
                 <h5 class="mb-5 me-3  text-light">{{ like_cnt }}개</h5>
-            </div>
-            <div>
-                {% for plan in person.like_plans.all %}
-                    <p class="ms-4 mb-2  text-light">"<a href="{% url "plans:detail" plan.pk %}">{{ plan.title }}</a>" 글에 좋아요를 눌렀습니다. ❤</p>
-                {% endfor %}
-            </div>
-            <div>
-                {% for plan in person.user_plans.all  %}
-                    {% for like_user in plan.like_users.all  %}
-                        <p class="ms-4 mb-2  text-light">"<a href="{% url "accounts:profile" like_user.pk %}">{{ like_user.username }}</a>" 님이 "<a href="{% url "plans:detail" plan.pk %}">{{ plan.title }}</a>" 글을 좋아합니다. ❤ </p>
-                    {% endfor %}
-                {% endfor %}
-            </div>
+                <h3>Issues {{ like_cnt }} <img src={% static "like3_img.png" %} alt="like_medal.png" height="20" class="col-6 animate__animated animate__headShake"></h3>
+            </div> {% endcomment %}
+
+            {% comment %} 좋아요 누른 게시글 배너 {% endcomment %}
+            <div class="container d-flex justify-content-between ">
+                <div class="row text-center">
+                    <div class="col-6">
+                    <h2>Plans LIKE : {{ like_cnt }}</h2>
+                        {% for plan in person.like_plans.all %}
+                            <p class="text-light">당신이 "<a href="{% url "plans:detail" plan.pk %}">{{ plan.title }}</a>" 글에 좋아요를 눌렀습니다. ❤</p>
+                        {% endfor %}
+                        {% for plan in person.user_plans.all  %}
+                            {% for like_user in plan.like_users.all  %}
+                                <p class="text-light">"<a href="{% url "accounts:profile" like_user.pk %}">{{ like_user.username }}</a>" 님이 당신의 "<a href="{% url "plans:detail" plan.pk %}">{{ plan.title }}</a>" 글을 좋아합니다. ❤ </p>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>  
+                    {% comment %} <h5 class="mb-5 me-3  text-light">{{ like_cnt }}개</h5> {% endcomment %}
+                    <div class="col-6">
+                    <h2>Issues LIKE : {{ like_cnt2 }}</h2>
+                        {% for issue in person.like_issues.all %}
+                            <p class="text-light">당신이 "<a href="{% url "issues:detail" issue.pk %}">{{ issue.title }}</a>" 글에 좋아요를 눌렀습니다. ❤</p>
+                        {% endfor %}
+                        {% for issue in person.user_issues.all  %}
+                            {% for like_user in issue.like_users.all  %}
+                                <p class="text-light">"<a href="{% url "accounts:profile" like_user.pk %}">{{ like_user.username }}</a>" 님이 당신의 "<a href="{% url "issues:detail" issue.pk %}">{{ issue.title }}</a>" 글을 좋아합니다. ❤ </p>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 {% comment %} test {% endcomment %}
 {% comment %} left_my profile {% endcomment %}
 {% comment %} <div class='container border border-2 border-light rounded-5 p-3 my-2 border-opacity-75 '>

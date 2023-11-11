@@ -1,4 +1,4 @@
-{% load static %} 
+{% load static %}
 {% if not request.user.beakjoon_rank %}
   {{ request.user.user_crawling }}
 {% endif %}
@@ -30,7 +30,7 @@
     {% comment %} 우리가 만든 css {% endcomment %}
     <link rel="stylesheet" href="{% static "style.css" %}">
     <div class="container-fluid">
-      <div class="bg-black fixed-top pt-2">
+      <div class="mt-2 fixed-top">
         <div class="d-flex flex-column flex-items-center p-responsive height-full position-relative z-1">
           <div class="d-flex justify-content-between">
             <div>
@@ -51,7 +51,7 @@
       <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
           <h3 class="offcanvas-title border-bottom border-white" id="offcanvasExampleLabel">Study Group Board</h3>
-          <button type="button" id="btn_cursor" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <button type="button" id="btn_cursor" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
           <div class="dropdown mt-3">
@@ -88,7 +88,7 @@
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link fs-4" href="#">
+                      <a class="nav-link fs-4" href={% url "algorithms:index" %}>
                           <div>
                             <img src={% static "Base/algorithm.png" %} alt="" height="20px" class="mx-2">
                             Algorithm
@@ -96,14 +96,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link fs-4" href="#">
+                      <a class="nav-link fs-4" href="{% url "issues:index" %}">
                           <div>
                             <img src={% static "Base/thinking.png" %} alt="" height="20px" class="mx-2">
                             Issue
                           </div>
                         </a>
                     </li>
+
                     <li class="nav-item dropdown">
+                      
                       <div class="dropdown mt-3">
                       <a class="nav-link dropdown-toggle fs-4" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           <img src={% static "Base/user.png" %} alt="" height="20px" class="mx-2">
@@ -116,11 +118,13 @@
                         <li>
                           <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Manage Board</a></li>
+                        <li><a class="dropdown-item" href="{% url "accounts:manage_board" %}">Manage Board</a></li>
                       </ul>
                     </div>
-
                     </li>
+
+                
+
                   </ul>
                   {% comment %} <form class="d-flex mt-3" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -134,7 +138,7 @@
 <body>
       <br>
       <div >
-        <div class='mx-5'>
+        <div class='m-5'>
           {% block content %}
           {% endblock content %}
         </div>

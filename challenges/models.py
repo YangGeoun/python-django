@@ -13,3 +13,4 @@ class Code(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='code_challenges')
     content = models.TextField()
     challenge = models.ForeignKey(Challenge,on_delete=models.CASCADE, related_name='code_challenges')
+    created_at = models.DateTimeField(auto_now_add=True)

@@ -3,11 +3,20 @@ from django.contrib.auth.decorators import login_required
 from .models import Plan, Comment
 from .forms import PlanForm, CommentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import JsonResponse
 
 # Create your views here.
 @login_required
 def index(request):
-    plans = Plan.objects.all()
+    sort = request.GET.get('sort', '')
+    if sort == 'views':
+        plans = Plan.objects.all().order_by('-count')
+    elif sort == 'recently':
+        plans = Plan.objects.all().order_by('-created_at')
+    elif sort == 'unRecently':
+        plans = Plan.objects.all().order_by('created_at')
+    else:
+        plans = Plan.objects.all()
     paginator = Paginator(plans,10)
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
@@ -91,16 +100,20 @@ def comments_create(request, pk):
     context = {
         'plan': plan,
         'comment_form': comment_form,
+        'comment' : comment
     }
     return render(request, 'plans/detail.html', context)
 
 
-@login_required
 def comments_delete(request, plan_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     if request.user == comment.comment_user:
         comment.delete()
-    return redirect('plans:detail', plan_pk)
+    # return redirect('plans:detail', plan_pk)
+    context = {
+
+    }
+    return JsonResponse(context)
 
 
 def likes(request, plan_pk):
@@ -110,12 +123,20 @@ def likes(request, plan_pk):
     # else:
     if not plan.like_users.filter(pk=request.user.pk):
         plan.like_users.add(request.user)
+        is_liked = True
     else:
         plan.like_users.remove(request.user)
-    plan.count -= 1
+        is_liked = False
+
     plan.save()
+
+    context = {
+        'is_liked': is_liked,
+        'likes_count': plan.like_users.count()
+    }
     
-    return redirect('plans:detail', plan_pk)
+    # return redirect('plans:detail', plan_pk)
+    return JsonResponse(context)
 
 
 def likes_comment(request, plan_pk, comment_pk):
@@ -125,11 +146,20 @@ def likes_comment(request, plan_pk, comment_pk):
     # else:
     if request.user not in comment.like_comment_users.all():
         comment.like_comment_users.add(request.user)
+        is_comment_liked = True
     else:
         comment.like_comment_users.remove(request.user)
+        is_comment_liked = False
+
     comment.save()
+
+    context = {
+        'is_comment_liked': is_comment_liked,
+        'comment_likes_count': comment.like_comment_users.count()
+    }
     
-    return redirect('plans:detail', plan_pk)
+    # return redirect('plans:detail', plan_pk)
+    return JsonResponse(context)
 
 
 def plan_list(request):

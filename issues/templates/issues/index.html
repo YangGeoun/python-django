@@ -26,7 +26,7 @@
 
 {% block content %}
 <div class='container border bg-dark.bg-gradient p-3 rounded-5'>
-    <h1 class='font mb-5 fw-bold text-white text-center animate__animated animate__headShake'>
+    <h1 class='font fw-bold text-white animate__animated animate__headShake'>
         ISSUE BOARD
     </h1>
     <table class='table table-hover table-responsive table-dark rounded-pill'>
@@ -62,7 +62,7 @@
       <div>
         <form method="GET" action="{% url "issues:index" %}" id="sort">
           <div class="col-4 d-flex">
-            <select name="sort" id="sort" type="submit">
+            <select name="sort" id="sort" type="submit" >
               <option value="recently" id="recently" type="submit">최신순</option>
               <option value="unRecently" id="unRecently" type="submit">오래된순</option>
               <option value="views" id="likes" type="submit">조회순</option>

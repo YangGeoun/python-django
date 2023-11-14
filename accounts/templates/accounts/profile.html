@@ -53,17 +53,9 @@
             <h5>백준 닉네임 : {{ person.beakjoon_nickname }}</h5>
             {% comment %} 상단 프로필 배너 {% endcomment %}
             <div class="d-flex justify-content-center mb-4">
-                <form action="{% url "accounts:update" %}" method='POST'>
-                    {% csrf_token %}
-                    <button type="submit" id="btn_cursor" class="btn btn-outline-light me-3"> 회원정보 수정 </button>
-                </form>
                 <form action="{% url "algorithms:solved" person.pk %}" method='GET'>
                     <button type="submit" id="btn_cursor" class="btn btn-outline-light me-3" > {{ person.username }}님이 푼 문제 </button>
                 </form>
-                {% comment %} <form action="#" method='POST'>
-                    {% csrf_token %}
-                    <button type="submit" id="btn_cursor" class="btn btn-outline-light me-3"> 뭔가 넣을 곳 </button>
-                </form> {% endcomment %}
             </div>
             <div class="mb-3 d-flex justify-content-around">
                 <p>팔로워 : {{ person.followers.all|length }} </p>

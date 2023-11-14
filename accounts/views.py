@@ -62,7 +62,9 @@ def delete(request):
 @login_required
 def update(request):
     previous_beakjoon_nickname = request.user.beakjoon_nickname
-    print(previous_beakjoon_nickname)
+    # print(previous_beakjoon_nickname)
+    user = request.user
+
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -78,13 +80,19 @@ def update(request):
                     user.solved_problems.remove(el)
                 user.beakjoon_rank = None
                 user.save()
-            return redirect('accounts:profile', user.pk)
+            return redirect('accounts:profile', user.pk)    
     else:
         form = CustomUserChangeForm(instance=request.user)
+    # return render(request, 'accounts/update.html', context)
+
+    # 현재 사용자가 그 사용자의 프로필 소유자인지 확인하기(이거 작동안되는듯..(11월11일 수정))
     context = {
         'form': form,
     }
-    return render(request, 'accounts/update.html', context)
+    if request.user.pk == user.pk:
+        return render(request, 'accounts/update.html', context)
+    else:
+        return redirect('accounts:profile', request.user.pk)
 
 
 @login_required

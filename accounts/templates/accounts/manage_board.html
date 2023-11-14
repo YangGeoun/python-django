@@ -19,14 +19,14 @@
 {% endblock css %}
 
 {% block content %}
-<div class="container text-white border bg-dark.bg-gradient p-3 rounded-5 font fw-bold">
+<div class="container  text-white border bg-dark.bg-gradient p-3 rounded-5 font fw-bold">
   <h1 class="text-center">Member List</h1>
   <hr>
   <div>
   <div class="container text-center">
-    <div class="row" style="padding-right: 2%">
+    <div class="row"style="margin-right: 7%">
       {% for person in people %}
-        <div class="card text-bg-dark rounded-5 col-md-3 offset-md-1">
+        <div class="card text-bg-dark rounded-5 col-md-3 offset-md-1 mt-5 mb-2">
           <div class="card-body">
             {% if person.image %}  
               <div class="text-center">

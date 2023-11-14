@@ -53,6 +53,10 @@
             <h5>백준 닉네임 : {{ person.beakjoon_nickname }}</h5>
             {% comment %} 상단 프로필 배너 {% endcomment %}
             <div class="d-flex justify-content-center mb-4">
+                {% comment %} <form action="{% url "accounts:update" %}" method='POST'>
+                    {% csrf_token %}
+                    <button type="submit" id="btn_cursor" class="btn btn-outline-light me-3"> 회원정보 수정 </button>
+                </form> {% endcomment %}
                 <form action="{% url "algorithms:solved" person.pk %}" method='GET'>
                     <button type="submit" id="btn_cursor" class="btn btn-outline-light me-3" > {{ person.username }}님이 푼 문제 </button>
                 </form>

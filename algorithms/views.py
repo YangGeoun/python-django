@@ -52,7 +52,7 @@ def solved(request, user_pk):
         for classs in solved_problem.classes.all():
             class_dic[classs.name] = class_dic.setdefault(classs.name, 0) + 1
 
-    graph_list = [class_dic['자료 구조'],class_dic['다이나믹 프로그래밍'],class_dic['그리디 알고리즘'],class_dic['브루트포스 알고리즘'],class_dic['그래프 이론'],class_dic['문자열']]
+    graph_list = [class_dic.setdefault('자료 구조',0),class_dic.setdefault('다이나믹 프로그래밍',0),class_dic.setdefault('그리디 알고리즘',0),class_dic.setdefault('브루트포스 알고리즘',0),class_dic.setdefault('그래프 이론',0),class_dic.setdefault('문자열',0)]
 #
     print(graph_list)
 # 
